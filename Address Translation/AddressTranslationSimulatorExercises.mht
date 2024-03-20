@@ -1,0 +1,369 @@
+From: <Saved by Windows Internet Explorer 8>
+Subject: Address Translation Simulator Exercises
+Date: Wed, 15 Feb 2012 15:50:59 -0500
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: http://edugen.wileyplus.com/edugen/courses/crs2160/simulations/os_simulator/student_questions/address-exercises.html
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.6109
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Address Translation Simulator Exercises</TITLE>
+<META content=3D"text/html; charset=3DISO-8859-1" =
+http-equiv=3Dcontent-type>
+<META name=3DGENERATOR content=3D"MSHTML 8.00.6001.19120"></HEAD>
+<BODY><SPAN style=3D"FONT-WEIGHT: bold">Address Translation Simulator=20
+Exercises</SPAN><BR><BR>This document was derived from the simulation =
+software=20
+created by Steve Robbins which was supported by NSF =
+DUE-9752165<BR><BR><SPAN=20
+style=3D"FONT-WEIGHT: bold"><A name=3DP1></A>Part I</SPAN> <BR><BR><SPAN =
+
+style=3D"FONT-WEIGHT: bold">Instructions</SPAN>:&nbsp; Download the =
+Address=20
+Translation simulator and extract the zip file. This produces a folder =
+named=20
+<SPAN style=3D"FONT-WEIGHT: bold">address</SPAN>. The user manual for =
+this=20
+simulator, <SPAN style=3D"FONT-WEIGHT: bold">address_doc.html</SPAN>, is =
+included=20
+in this folder. It is strongly suggested that you carefully read through =
+this=20
+documentation describing how the simulator operates prior to beginning =
+these=20
+exercises.<BR><BR>Steps: Perform the following steps using the address=20
+translation simulator.<BR>
+<OL>
+  <LI>In the <SPAN style=3D"FONT-WEIGHT: bold">address</SPAN> directory =
+execute=20
+  <SPAN style=3D"FONT-FAMILY: monospace; FONT-WEIGHT: =
+bold">runaddress</SPAN>=20
+  (UNIX, Linux, Mac OS X) or <SPAN=20
+  style=3D"FONT-FAMILY: monospace; FONT-WEIGHT: =
+bold">runaddress.bat</SPAN>=20
+  (Windows.) This will start the address translation simulator. <BR><BR>
+  <LI>Click the yellow button labeled <SPAN style=3D"FONT-WEIGHT: =
+bold">Single=20
+  Level</SPAN> at the right side of the Virtual Address Translation =
+Simulator=20
+  window. Five additional buttons labeled <SPAN style=3D"FONT-WEIGHT: =
+bold">Single=20
+  Level Page Table Test 1</SPAN> through <SPAN style=3D"FONT-WEIGHT: =
+bold">Single=20
+  Level Page Table Test 5</SPAN> appear. The ordering of the tests is =
+random,=20
+  based upon the name of the user specified in the configuration file =
+<SPAN=20
+  style=3D"FONT-WEIGHT: bold">addressconfig</SPAN> in the address =
+directory. You=20
+  will use the default name for the first test in this part. Later steps =
+will=20
+  have you set the username to your name and you will submit a logfile =
+of your=20
+  activity.<BR><BR>
+  <LI>Click the <SPAN style=3D"FONT-WEIGHT: bold">Single Level Page =
+Table Test=20
+  1</SPAN> button at the right of the simulator window. The <SPAN=20
+  style=3D"FONT-WEIGHT: bold">Virtual Address Translation</SPAN> window =
+appears.=20
+  This is the window where you will translate the supplied logical =
+address to=20
+  its physical address.<BR><BR>
+  <LI>Click the <SPAN style=3D"FONT-WEIGHT: bold">Progress</SPAN> button =
+at the=20
+  bottom left of the Virtual Address Translation window. The <SPAN=20
+  style=3D"FONT-WEIGHT: bold">Single Level Page Table Progress</SPAN> =
+window=20
+  appears with the 10 tasks for resolving the logical address to the =
+physical=20
+  address (the window may need to be resized for you to read the entire =
+title in=20
+  the title bar).<BR><BR>
+  <LI>Click the green button labeled <SPAN=20
+  style=3D"FONT-WEIGHT: bold">Lifeline</SPAN> in the upper left-hand =
+corner of the=20
+  Virtual Address Translation window. A lifeline is an aid which helps =
+you=20
+  perform one of the steps from the progress window. (You do not have to =
+use=20
+  lifelines if you do not require such aid.) Your instructor control =
+whether=20
+  lifelines are available, and if he or she chooses to make them =
+available, he=20
+  or she can also set the number of lifelines for each test. If =
+lifelines are=20
+  not available, clicking the <SPAN style=3D"FONT-WEIGHT: =
+bold">Lifeline</SPAN>=20
+  button will have no effect.<BR><BR>
+  <LI>Perform Task 1 in the Progress window, using the Lifeline window =
+to find=20
+  the correct location (, and click to segment the logical address. (A =
+light=20
+  blue circle appears to the left of each step in the Progress window =
+after it=20
+  is successfully completed.)<BR><BR>
+  <LI>Perform Task 2 in the Progress window, using the Lifeline window =
+to find=20
+  the correct location (, and segment the physical address.<BR><BR>
+  <LI>Perform Task 3 in the Progress window and click the <SPAN=20
+  style=3D"FONT-WEIGHT: bold">Paste</SPAN> button to paste the offset =
+into the=20
+  physical address address.<BR><BR>
+  <LI>Click the <SPAN style=3D"FONT-WEIGHT: bold">TLB</SPAN> button at =
+the bottom=20
+  of the Virtual Address Translation window. The <SPAN=20
+  style=3D"FONT-WEIGHT: bold">TLB</SPAN> window appears.<BR><BR>
+  <LI>Click on <SPAN style=3D"FONT-WEIGHT: bold">4. Segment TLB</SPAN> =
+in the=20
+  Progress window. A separate <SPAN style=3D"FONT-WEIGHT: =
+bold">Help</SPAN> window=20
+  appears describing the steps for completing this task. Following the =
+steps in=20
+  the Help window, segment the TLB. (You may also use the Lifeline in=20
+  conjunction with the Help window.)<BR><BR>
+  <LI>Perform Task 5 in the Progress window.<BR><BR>
+  <LI>Perform Task 6 in the Progress window by clicking the <SPAN=20
+  style=3D"FONT-WEIGHT: bold">Lookup</SPAN> button in the bottom =
+left-hand corner=20
+  of the TLB window. The TLB window displays a message indicating =
+whether the=20
+  frame for this logical page was found in the TLB or not. In this case, =
+it=20
+  displays "Found Frame". Notice that Tasks 7 and 8 have been disabled, =
+you will=20
+  not complete them in this test.<BR><BR>
+  <LI>Perform Task 9 in the Progress window.<BR><BR>
+  <LI>Click the appropriate completion button -- either <SPAN=20
+  style=3D"FONT-WEIGHT: bold">Found Physical Address</SPAN> or <SPAN=20
+  style=3D"FONT-WEIGHT: bold">Page Fault</SPAN> -- in this case, click =
+the <SPAN=20
+  style=3D"FONT-WEIGHT: bold">Found Physical Address</SPAN> =
+button.<BR><BR>
+  <LI>Click the pink <SPAN style=3D"FONT-WEIGHT: bold">Quit</SPAN> =
+button in the=20
+  lower left-hand corner of the Virtual Address Translation&nbsp; window =
+(the=20
+  main window). This will terminate the simulator.<BR><BR>
+  <LI>Edit the file <SPAN style=3D"FONT-WEIGHT: =
+bold">addressconfig</SPAN> in the=20
+  <SPAN style=3D"FONT-WEIGHT: bold">address</SPAN> directory and replace =
+the name=20
+  <SPAN style=3D"FONT-WEIGHT: bold">default_user</SPAN> with your =
+name.<BR><BR>
+  <LI>Add the following line to the addressconfig file:<BR><BR><SPAN=20
+  style=3D"FONT-WEIGHT: bold">logdir .</SPAN><BR><BR>This sets the =
+directory of=20
+  the logfile to the current directory.<BR><BR><BR><BR>
+  <LI>Execute the simulator again.<BR><BR>
+  <LI>Click on the <SPAN style=3D"FONT-WEIGHT: bold">Open Log</SPAN> =
+button in the=20
+  lower right-hand corner of the main window.<BR><BR>
+  <LI>Complete the remaining tests 2 through 5 for single level paging. =
+You=20
+  should use the Progress window, at least for the first few tests. Not =
+all=20
+  tests will use the TLB (the TLB button will be disabled in those=20
+  tests).<BR><BR>
+  <LI>Click the <SPAN style=3D"FONT-WEIGHT: bold">Close Log</SPAN> =
+button. You=20
+  have created a file called <SPAN=20
+  style=3D"FONT-FAMILY: monospace; FONT-WEIGHT: =
+bold">logfile.html</SPAN> in the=20
+  <SPAN style=3D"FONT-WEIGHT: bold">address</SPAN> directory.<BR><BR>
+  <LI>Click the <SPAN style=3D"FONT-WEIGHT: bold">Quit</SPAN> to =
+terminate the=20
+  simulator. <BR><BR>
+  <LI>Submit your logfile -- <SPAN style=3D"FONT-WEIGHT: =
+bold">logfile.html</SPAN>=20
+  -- to your instructor per his or her instructions.<BR><BR></LI></OL>
+<H4>Questions:</H4>Answer the following questions after completing Steps =
+1 - 18=20
+above.<BR><BR>1. What is the value of page size after completing Step=20
+3?<BR><BR>&nbsp;&nbsp;&nbsp; a) 1024<BR>&nbsp;&nbsp;&nbsp; b)=20
+4096<BR>&nbsp;&nbsp;&nbsp; c) 8192<BR>&nbsp;&nbsp;&nbsp; d) None of the=20
+above<BR><BR><BR>2. What are the number of bits in the virtual address =
+after=20
+completing Step 3?<BR><BR>&nbsp;&nbsp;&nbsp; a) 32<BR>&nbsp;&nbsp;&nbsp; =
+b)=20
+31<BR>&nbsp;&nbsp;&nbsp; c) 64<BR>&nbsp;&nbsp;&nbsp; d) 30<BR><BR><BR>3. =
+What=20
+are the number of bits in the physical address after completing Step=20
+3?<BR><BR>&nbsp;&nbsp;&nbsp; a) 32<BR>&nbsp;&nbsp;&nbsp; b)=20
+30<BR>&nbsp;&nbsp;&nbsp; c) 23<BR>&nbsp;&nbsp;&nbsp; d) 24<BR><BR><BR>4. =
+How=20
+many entries are in the TLB after completing Step =
+3?<BR><BR>&nbsp;&nbsp;&nbsp;=20
+a) 16<BR>&nbsp;&nbsp;&nbsp; b) 24<BR>&nbsp;&nbsp;&nbsp; c)=20
+32<BR>&nbsp;&nbsp;&nbsp; d) 8<BR><BR><BR>5. How many bits are used in =
+the=20
+logical address for the page offset after completing Step=20
+6?<BR><BR>&nbsp;&nbsp;&nbsp; a) 18<BR>&nbsp;&nbsp;&nbsp; b)=20
+12<BR>&nbsp;&nbsp;&nbsp; c) 10<BR>&nbsp;&nbsp;&nbsp; d) 13<BR><BR><BR>6. =
+What is=20
+the value of the page offset after completing Step =
+8?<BR><BR>&nbsp;&nbsp;&nbsp;=20
+a) 000000000000<BR>&nbsp;&nbsp;&nbsp; b) =
+101010101010<BR>&nbsp;&nbsp;&nbsp; c)=20
+110100010101<BR>&nbsp;&nbsp;&nbsp; d) None of the above<BR><BR><BR>7. =
+How many=20
+bits in the TLB are used to represent the page after completing Step=20
+10?<BR><BR>&nbsp;&nbsp;&nbsp; a) 18<BR>&nbsp;&nbsp;&nbsp; b)=20
+11<BR>&nbsp;&nbsp;&nbsp; c) 12<BR>&nbsp;&nbsp;&nbsp; d) 16<BR><BR><BR>8. =
+Was the=20
+logical page found in the TLB after completing Step=20
+12?<BR><BR>&nbsp;&nbsp;&nbsp; a) Yes<BR>&nbsp;&nbsp;&nbsp; b) =
+No<BR><BR><BR>9.=20
+What is the physical address after completing Step =
+14?<BR><BR>&nbsp;&nbsp;&nbsp;=20
+a) 000111010110111100110100010101<BR>&nbsp;&nbsp;&nbsp; b)=20
+11010001010100001111011<BR>&nbsp;&nbsp;&nbsp; c)=20
+00001111011110100010101<BR>&nbsp;&nbsp;&nbsp; d) There was a page=20
+fault<BR><BR><BR><SPAN style=3D"FONT-WEIGHT: bold"><A name=3DP2></A>Part =
+II=20
+</SPAN><BR><BR><SPAN style=3D"FONT-WEIGHT: bold">Instructions:</SPAN> If =
+you have=20
+not done so already, download the Address Translation simulator and =
+extract the=20
+zip file. This produces a folder named <SPAN=20
+style=3D"FONT-WEIGHT: bold">address</SPAN>. The user manual for this =
+simulator,=20
+<SPAN style=3D"FONT-WEIGHT: bold">address_doc.html</SPAN>, is included =
+in the=20
+folder. It is strongly suggested that you carefully read through this=20
+documentation describing how the simulator operates. It is also =
+recommended that=20
+you complete <A=20
+href=3D"http://edugen.wileyplus.com/edugen/courses/crs2160/simulations/os=
+_simulator/student_questions/address-exercises.html#P1">Part=20
+I</A> as well.<BR><BR>In this part, you will perform address translation =
+using=20
+two-level page tables. You will create a logfile of your activity that =
+will=20
+replace the logfile from <A=20
+href=3D"http://edugen.wileyplus.com/edugen/courses/crs2160/simulations/os=
+_simulator/student_questions/address-exercises.html#P1">Part=20
+I</A>. Before proceeding, rename your logfile from <A=20
+href=3D"http://edugen.wileyplus.com/edugen/courses/crs2160/simulations/os=
+_simulator/student_questions/address-exercises.html#P1">Part=20
+I</A> to <SPAN=20
+style=3D"FONT-FAMILY: monospace; FONT-WEIGHT: =
+bold">logfile-P1.html</SPAN>).<BR><BR>Steps:=20
+Perform the following steps using the address translation =
+simulator.<BR><BR>
+<OL>
+  <LI>Edit the <SPAN style=3D"FONT-WEIGHT: bold">addressconfig</SPAN> =
+file in the=20
+  <SPAN style=3D"FONT-WEIGHT: bold">address</SPAN> directory and replace =
+your name=20
+  with the name <SPAN style=3D"FONT-WEIGHT: =
+bold">default_user</SPAN>.<BR><BR>
+  <LI>In the <SPAN style=3D"FONT-WEIGHT: bold">address</SPAN> directory =
+execute=20
+  <SPAN style=3D"FONT-FAMILY: monospace; FONT-WEIGHT: =
+bold">runaddress</SPAN>=20
+  (UNIX, Linux, Mac OS X) or <SPAN=20
+  style=3D"FONT-FAMILY: monospace; FONT-WEIGHT: =
+bold">runaddress.bat</SPAN>=20
+  (Windows.) This will start the address translation simulator. <BR><BR>
+  <LI>Click on the blue button labeled <SPAN style=3D"FONT-WEIGHT: =
+bold">Two=20
+  Levels</SPAN>. Seven buttons labeled <SPAN style=3D"FONT-WEIGHT: =
+bold">Two Level=20
+  Page Table Test 1</SPAN> through <SPAN style=3D"FONT-WEIGHT: bold">Two =
+Level=20
+  Page Table Test 7</SPAN> appear. <BR><BR>
+  <LI>Click the <SPAN style=3D"FONT-WEIGHT: bold">Two Level Page Table =
+Test=20
+  3</SPAN> button. A window titled <SPAN style=3D"FONT-WEIGHT: =
+bold">Virtual=20
+  Address Translation</SPAN> appears.<BR><BR>
+  <LI>Click the button labeled <SPAN style=3D"FONT-WEIGHT: =
+bold">Progress</SPAN>=20
+  at the bottom-left of the Virtual Address Translation window. The =
+<SPAN=20
+  style=3D"FONT-WEIGHT: bold">Progress</SPAN> window appears with the 16 =
+tasks for=20
+  resolving the logical address to the physical address.<BR><BR>
+  <LI>Perform Tasks 1-3 in the Progress window, using the Progress =
+window help=20
+  or Lifelines, if needed. <BR><BR>
+  <LI>Perform Task 4 in the Progress window and segment the TLB.<BR><BR>
+  <LI>Perform Tasks 5 and 6 in the Progress window. <BR><BR>
+  <LI>Perform Tasks 7 and 8 in the Progress window, and segment the =
+logical=20
+  address into separate entries for the single-level and second-level =
+page=20
+  tables.<BR><BR>
+  <LI>Perform Tasks 9 and 10 in the Progress window.<BR><BR>
+  <LI>Perform Tasks 11-15 in the Progress window.<BR><BR>
+  <LI>Perform Task 16 in the Progress window by pushing the appropriate=20
+  completion button.<BR><BR>
+  <LI>Click the pink <SPAN style=3D"FONT-WEIGHT: bold">Quit</SPAN> =
+button in the=20
+  lower left-hand corner of the Virtual Address Translation window to =
+terminate=20
+  the simulator.<BR><BR>
+  <LI>Edit the <SPAN style=3D"FONT-WEIGHT: bold">addressconfig</SPAN> =
+file in the=20
+  <SPAN style=3D"FONT-WEIGHT: bold">address</SPAN> directory and replace =
+the name=20
+  <SPAN style=3D"FONT-WEIGHT: bold">default_user</SPAN> with your =
+name.<BR><BR>
+  <LI>Execute the simulator again.<BR><BR>
+  <LI>Click on the <SPAN style=3D"FONT-WEIGHT: bold">Open Log</SPAN> =
+button in the=20
+  lower right-hand corner of the main window.<BR><BR>
+  <LI>Complete the remaining tests 1, 2, and 4-7 for two-level paging. =
+You=20
+  should use the Progress window, at least for the first few tests. Not =
+all=20
+  tests will use the TLB (in those tests, the TLB button will be=20
+  disabled.)<BR><BR>
+  <LI>Click the <SPAN style=3D"FONT-WEIGHT: bold">Close Log</SPAN> =
+button (you=20
+  have created a file called <SPAN=20
+  style=3D"FONT-FAMILY: monospace; FONT-WEIGHT: =
+bold">logfile.html</SPAN>) and=20
+  terminate the simulator. <BR><BR>
+  <LI>Submit your logfile -- <SPAN style=3D"FONT-WEIGHT: =
+bold">logfile.html</SPAN>=20
+  -- to your instructor per his or her =
+instructions.<BR><BR></LI></OL><BR><SPAN=20
+style=3D"FONT-WEIGHT: bold">Questions:</SPAN><BR><BR>1. What is the size =
+of the=20
+page after completing Step 2?<BR><BR>&nbsp;&nbsp;&nbsp; a)=20
+8192<BR>&nbsp;&nbsp;&nbsp; b) 4096<BR>&nbsp;&nbsp;&nbsp; c)=20
+1024<BR>&nbsp;&nbsp;&nbsp; d) 512<BR><BR><BR>2. What is the value of the =
+page=20
+offset after completing Step 2?<BR><BR>&nbsp;&nbsp;&nbsp; a)=20
+111000010111<BR>&nbsp;&nbsp;&nbsp; b) =
+000111010110111100<BR>&nbsp;&nbsp;&nbsp;=20
+c) 110100010101<BR>&nbsp;&nbsp;&nbsp; d) 00000000000<BR><BR><BR>3. How =
+many bits=20
+in the TLB are used for the frame after completing Step=20
+7?<BR><BR>&nbsp;&nbsp;&nbsp; a) 18<BR>&nbsp;&nbsp;&nbsp; b)=20
+11<BR>&nbsp;&nbsp;&nbsp; c) 12<BR>&nbsp;&nbsp;&nbsp; d) 10<BR><BR><BR>4. =
+Was the=20
+logical address resolved in the TLB after completing Step=20
+8?<BR><BR>&nbsp;&nbsp;&nbsp; a) Yes<BR>&nbsp;&nbsp;&nbsp; b) =
+No<BR><BR><BR>5.=20
+How many bits are used in the logical address to represent the =
+first-level page=20
+table after completing Step 9?<BR><BR>&nbsp;&nbsp;&nbsp; a)=20
+10<BR>&nbsp;&nbsp;&nbsp; b) 12<BR>&nbsp;&nbsp;&nbsp; c) =
+11<BR>&nbsp;&nbsp;&nbsp;=20
+d) 9<BR><BR><BR>6. Is the entry in the first-level page table valid =
+after=20
+completing Step 10?<BR><BR>&nbsp;&nbsp;&nbsp; a) =
+Yes<BR>&nbsp;&nbsp;&nbsp; b)=20
+No<BR><BR><BR>7. Is the entry in the second-level page table valid after =
+
+completing Step 11?<BR><BR>&nbsp;&nbsp;&nbsp; a) =
+Yes<BR>&nbsp;&nbsp;&nbsp; b)=20
+No<BR><BR><BR>8. What is the physical address after completing Step=20
+12?<BR><BR>&nbsp;&nbsp;&nbsp; a)=20
+000111010110111100110100010101<BR>&nbsp;&nbsp;&nbsp; b)=20
+00001111011110100010101<BR>&nbsp;&nbsp;&nbsp; c)=20
+110111100110100010101<BR>&nbsp;&nbsp;&nbsp; d) There was page=20
+fault.<BR><BR></BODY></HTML>

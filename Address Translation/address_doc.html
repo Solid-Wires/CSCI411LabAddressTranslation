@@ -1,0 +1,902 @@
+<html><head>
+<title>Using the UTSA Address Translation Simulator</title></head><body>
+<h1> Using the Address Translation Simulator</h1>
+
+This document was last modified on January 10, 2005 to reflect changes made
+to version 0.34.  This is the first version with a user's guide.
+
+The simulator allows you to experiment with address translation using
+a 1 or 2-level page table and a translation lookaside buffer.
+<p>
+
+</p><hr>
+<h1>Table of Contents</h1>
+
+<a href="#Overview">Overview</a><br>
+<a href="#Requirements">System and User Requirements</a><br>
+<a href="#Starting">Starting the Simulator</a><br>
+<a href="#BasicOperation">Basic Operation</a><br>
+<a href="#LogicalAndPhysicalAddresses">Logical and Physical Addresses</a><br>
+<a href="#ProgressList">The Progress List</a><br>
+<a href="#TLB">The TLB</a><br>
+<a href="#MemorySingle">The Memory View - Single Level Page Table</a><br>
+<a href="#LifelinesProgressHelp">Lifelines and Progress Help</a><br>
+<a href="#Configuration">Configuration</a><br>
+<a href="#Logging">Logging</a><br>
+<a href="#TwoLevelPageTables">Two Level Page Tables</a><br>
+<a href="#ConfiguringTests">Configuring Tests</a><br>
+<a href="#ConfiguringEmail">Configuring Email</a><br>
+<p>
+</p><hr>
+<p>
+<a name="Overview"></a>
+</p><h3>Overview</h3>
+This simulator is part of a collection of simulators designed to augment a
+standard undergraduate operating system course.  These simulators have been
+developed with support from the National Science Foundation and are available
+free of charge.  More information about the complete set of available
+simulators can be found at
+<a href=http://vip.cs.utsa.edu/simulators>
+<tt>http://vip.cs.utsa.edu/simulators</tt></a>.
+<p>
+The Address Translation Simulator is a Java application that can be used
+for exploring aspects of address translation.
+It supports 1 and 2-level page tables and a translation lookaside buffer.
+The simulator gives the user a logical address and information about the memory
+system, such as the number of bits in logical and physical address and the
+page size.  The user then must determine the corresponding physical address
+or if a page fault occurs.
+<p>
+The simulator can be used for learning or testing.  In the learning modes,
+various levels of help are available.  The steps necessary to translate the
+address can be shown, hints are available for each step and individual
+steps can be done automatically, if the student gets stuck.
+<p>
+In the testing modes, the simulator keeps track of what the student does and
+records this information in a log file.  The amount of detail kept in the log
+file can be adjusted, from just keeping count of what was completed successfully
+to logging each action of the user.  The simulator can mail the log file
+to the instructor when the student has completed an assignment.
+<p>
+
+</p><p>
+</p><hr>
+<p>
+<a name="Requirements"></a>
+</p><h3>System and User Requirements</h3>
+<p>
+System requirements:
+</p><ul><li>
+    Computer with a Java runtime environment, version 1.1 or later.<br>
+    Java 1.4.2 or later is recommended.
+    </li><li>You need the following files to run the simulator:
+            <ul><li><tt>Address.jar</tt>
+            <li><tt>Jeli.jar</tt>
+            <li><tt>adddressconfig</tt>
+            <li><tt>runaddress.bat </tt>(for Windows) or <tt>runaddress</tt>
+                 for UNIX or Mac OSX
+        </ul>
+</ul>
+<p>
+User requirements:
+</p><ul><li>Familiarity with running a program in a command line environment
+    <li>Some knowledge of address translation
+</ul>
+
+If you are only interested in this simulator, you can download a zip file
+<a href="http://vip.cs.utsa.edu/downloads/address.zip">address.zip</a>
+that contains all of the files that you need.
+<p>
+ 
+<b>Running in a non-Windows environment:</b><br> 
+If you installed the simulator by copying the files from a CD, the 
+scripts may not have the correct permissions to run.  The <tt>convert</tt>
+and <tt>runaddress</tt> files should be executable.<br>
+The ASCII files distributed with this distribution are in the Windows format 
+in which lines end in a carriage return followed by a line feed.  
+It may be more convenient to have the carriage returns removed.
+If you are running under UNIX, Linux, or Mac OSX, it
+may be more convenient to have the carriage returns removed.
+You can remove all of the carriage returns from these files by executing the 
+<tt>convert</tt> script.
+<p> 
+ 
+
+<hr>
+<a name="Starting"></a>
+<h3>Starting the Simulator</h3>
+If you are running from an image of the simulator CD, start in the
+<tt>address</tt> subdirectory of the <tt>run</tt> directory.  If you unzipped
+the <b>Address.zip</b> file in a single directory, start in that directory.
+In either case, you can start the simulator from a command window by
+executing typing <tt>runaddress</tt>.  In a Windows environment you can
+also just click on the file <tt>runaddress.bat</tt>.
+<p>
+If you do a custom installation, you can put the jar files anywhere you
+want.  Modify the <tt>runaddress.bat</tt> (Windows) or <tt>runaddress</tt>
+(Unix, Linux, Mac OSX) file so that the <tt>JARDIR1</tt> or <tt>JARDIR2</tt>
+variables points to the location of the jar files.
+<p>
+If the simulator does not start, make sure you have the Java runtime executables
+in your path.  In a command window, execute:<br>
+<tt>java -version</tt><br>
+and make sure this displays a version later than 1.0.
+<p>
+
+<hr>
+<a name="BasicOperation"></a>
+<h3>Basic Operation</h3>
+
+Start the simulator as above.
+After a few seconds, you
+should see a small window appear similar to the one below.
+<p>
+</p><center>
+<img src="files/AddressMenu.gif">
+<p> Figure 1: The main simulator window.
+</p></center>
+
+<p>
+<ol>
+<li>The left side contains information about the simulator including the
+version number and which version of the Java virtual machine you are running.
+On the right side is a list of yellow buttons, each of which runs a
+test using a single level page table.  You can get a list of 2-level page table
+tests by pushing the <b>Two Levels</b> button.
+<li> The <b>Quit</b> button in the lower left corner exits the simulator.
+<li> The <b>Open Log</b> button in the lower right corner opens a log file
+  to record the results of the tests.
+<li> Just above these buttons is information about
+     <a href=#Lifelines>lifelines</a> used.
+</ol>
+There are 5 single level page table tests and 7 two level page table tests
+built into the simulator.  Additional tests may be specified in
+<a href=#configuration>configuration files</a>.  The 5 single level tests
+are randomized using the username as a seed so they will appear in a different
+order for different users, but always appear in the same order for a given
+user.
+<p>
+Figure 2 shows the result of pushing one of the yellow single level page table
+test buttons.
+
+<p>
+</p><center>
+<img src="files/SingleLevelTest.gif">
+<p> Figure 2: A single level page table test.
+</center>
+<p>
+At the top of this window are green <b>Lifeline</b> and <b>Help</b> buttons that
+can give guidance in using the simulator.  Most windows used by the simulator
+have a green <b>Help</b> button that pops up a message about using the window.
+In this case the message is shown in Figure 3.  These Help windows stay
+visible for only a short time unless you click the button on the bottom
+of the window.
+<p>
+</p><center>
+<img src="files/SingleLevelTestHelp.gif">
+<p> Figure 3: The Help message for a single level page table test.
+</center>
+<p>
+The simulator window contains the data for doing an address translation problem.
+Seven values are given:
+<OL>
+<LI>The number of page table levels, in this case it is 1.<br>
+    The simulator supports only 1 and 2-level page tables.
+<LI>The page size in bytes.  For a 2-level page table, this includes both
+    the top level page second level pages (explained in detail
+    <a href=#TwoLevelPageTables>later</a>).
+    For single level page tables this is the number of bytes in a page of
+    virtual memory or the number of bytes in a frame of physical memory.
+<LI>The number of bits in the virtual address that represents the second level
+    page table.  This value is 0 for single level page tables.
+<LI>The number of bits in a logical address.
+<LI>The number of bits in a physical address.
+<LI>The number of entries in the translation lookaside buffer (TLB).
+    If no TLB is used, this value will be 0.
+<LI>The number of bytes in a page table entry.  For 2-level page tables
+    it is assumed that all page tables have the same width.
+</OL>
+Below these values is the physical address of the start of the top level
+page table.  This value is included for completeness, but is usually not needed
+in running the simulator.
+<p>
+Next appear two widgets containing the logical and physical addresses.
+The value of the logical address is given (in binary) and the value of the
+physical address is to be determined by the user.<p>
+Basically, the fields of the logical address are manipulated to produce the
+fields of the physical address.  The widgets are designed for easy manipulation
+of these bit fields as explained below..
+<p>
+Below the logical and physical address widgets are two yellow buttons used
+to indicate when the user is done generating the physical address.
+Push the <b>Found Physical Address</b> button when you think you have correctly
+filled in the physical address or the <b>Page Fault</b> is you determined that
+a page fault has occurred.
+<P>
+The <b>Status</b> field below this indicates whether the test was done
+successfully or not.  It indicates <b>In Progress</b> until one of the above
+buttons is pushed, and then indicates success or failure.
+<p>
+Lastly are a row of buttons for displaying information useful in calculating
+the physical address.  These include displays of the TLB and memory
+(mainly in the form of page tables), a progress list to guide the user through
+the steps needed to do a translation, and a binary bitfield calculator for
+adding and shifting binary values.
+<p>
+The general paradigm for manipulating the binary bit fields is
+<b>cut and paste</b>, or more precisely, <b>copy and paste</b> since bit
+fields are never removed (cut), just copied.  The simulator uses a single
+<b>clipboard</b> shared by all entities used by the simulator.  Bit fields
+are moved around by first selecting them by clicking the mouse appropriately.
+This puts the bit field in the clipboard and then pasting them in the
+desired place, again by appropriately clicking the mouse.
+<p>
+Some fields such as those of the logical address, TLB and memory
+cannot be changed and so can only be selected.
+Others, such as those in the physical address only be pasted into.
+    
+
+<p>
+<hr>
+<a name="LogicalAndPhysicalAddresses"></a>
+<h3>The Logical and Physical Addresses</h3>
+The Logical and Physical Address widgets manipulate bit strings.
+The strings can be divided into fields.  Each field can be selected (put in
+the clipboard) or a value can be pasted (replaced by the value in the
+clipboard.  Each of these is done by clicking with the mouse.  Which action
+is performed depends on the mode that is set.
+<p>
+Each of the widgets has two rows of information.  The top row is a set of
+buttons controlling the mode of the widget.  The possible modes are
+Segment, Select, and Paste.  The current mode is highlighted with a
+cyan background.  In Figure 2, both widgets are in <b>Segment</b> mode.
+An additional <b>Help</b> button describes
+how to use the widget.  
+<p>Since the contents of the logical address cannot be changed by the user,
+this widget does not have a <b>Paste</b> mode.  The widget starts in the
+<b>Segment</b> mode that allows it to be divided into fields.  For single
+level page tables, only two fields are allowed, the high order bits
+representing a page number and the low order bits representing the page offset.
+Click the mouse between two of the binary digits to segment the logical
+address.  As you move the mouse in the logical address, the <b>Segment</b>
+button shows the sizes of the two fields that would be obtained by clicking
+the mouse at that time.  Figure 4 shows the logical address widgets after the
+mouse has divided it into fields of size 18 and 12.
+
+<p>
+</p><center>
+<img src="files/LogicalAddressSegmented.gif">
+<p> Figure 4: The logical address segmented into fields of size 18 and 12.
+</p></center>
+
+To copy the offset from the logical address to the physical address, first
+select the offset field by clicking on the select button to change to Select
+mode and then clicking on the offset field.  Figure 5 shows the result of
+doing this.
+
+<p>
+</p><center>
+<img src="files/LogicalAddressSelected.gif">
+<p> Figure 5: The logical address with the offset field selected.
+</p></center>
+
+In a similar way, segment the physical address into its fields, change to
+<b>Paste</b> mode, and click on the offset field in the physical address
+to paste the offset into the physical address.  Figure 6 shows the result of
+doing this.  The cyan dots in front of the first three steps indicate that
+these steps have been completed successfully.
+
+<p><center>
+<img src="files/PhysicalAddressPastedOffset.gif">
+<p> Figure 6: The physical address after the offset has been pasted.
+</center>
+
+<p>
+</p><hr>
+<a name="ProgressList"></a>
+<h3>The Progress List</h3>
+The Progress List is displayed when the <b>Progress</b> button is pushed.
+This button is in the bottom row as shown in Figure 2.  The Progress List shows
+the list of steps needed to do the address translation and indicates which
+of the steps have been completed successfully.  It can also give descriptions
+of what to do for each step and can automatically perform the next step when
+asked.  Each of these features and the progress list itself can be disabled
+after users become more familiar with the address translation process.
+Configuration is described in a later section.
+<p>
+The progress list for the address translation problem shown in Figure 2 is given
+in Figure 7.  The figure shows the state of the progress list after the
+offset has been correctly copied into the physical address as shown in Figure 6.
+
+<p><center>
+<img src="files/ProgressListOffsetDone.gif">
+<p> Figure 7: The progress list after the offset has been correctly copied into
+the physical address.
+</center>
+ 
+<p>
+<hr>
+<a name="TLB"></a>
+<h3>The TLB</h3>
+
+Pushing the <b>TLB</b> button at the bottom of Figure 2 displays the TLB
+as shown in Figure 8a.  The TLB must first be segmented into a page number
+and frame number by clicking in the appropriate column.  The result of
+correctly segmenting the TLB is shown in Figure 8b.  The number of bits
+representing the page number and the number of bits for the frame number are
+displayed.  The TLB also shows the value in the clipboard.
+<p>
+Once the TLB is segmented, the simplest way to do a lookup is the put
+the page number to be looked up in the clipboard and clicking the
+<b>Lookup</b> button in the TLB.  If the Logical Address is in <b>Select</b>
+mode, as it would normally be from pasting the offset in the physical address,
+just click on the page number filed in the Logical Address.
+This puts in in the clipboard and this value will appear in the TLB clipboard
+entry.  Push the <b>Lookup</b> button in the TLB.  If the lookup is successful,
+the corresponding frame number will be highlighted and put in the clipboard.
+Once this is done, it can be pasted into the physical address simply by
+clicking on the frame number field of the physical address.
+
+<p><center>
+<table border=0>
+<tr><TD><img src="files/TLB.gif"></TD>
+<TD>&nbsp&nbsp&nbsp</TD>
+<TD><img src="files/TLBSegmented.gif"></TD>
+<TR><TD align=center>a)</TD><TD></TD><TD align=center>b)</TD></TR>
+</table>
+<p> Figure 8: The TLB, before and after segmenting.
+</center>
+
+
+<p>
+<hr>
+<a name="MemorySingle"></a>
+<h3>The Memory View - Single Level Page Table</h3>
+This section describes the memory view in the case of a single level page table.
+Only the page table view of memory is discussed here.
+<p>
+If the lookup in the TLB is not successful, a page table lookup is necessary.
+Display the page table by pushing the <b>Memory View</b> button as shown at the
+bottom of Figure 2.  The default memory view shows the full single level page
+table, as seen in Figure 9a.
+The index of the entry appears (in binary) on the left followed by the
+valid bit and the frame number.  Use the scroll bar to scroll through the
+page table.  The starting frame number of the page table is automatically
+set and shown below the word <b>Frame</b> at the bottom of the window.
+Since the page table may be large, the simplest way to find an entry in the
+page table is to put its index in the clipboard and push the <b>Entry</b>
+button near the lower right side of the window.  The correct value should
+still be in the clipboard from the TLB lookup.  If not, select the page number
+from the logical address and then click the <b>Entry</b> button in the memory
+view.
+If the lookup is successful, the corresponding entry is highlighted and
+the frame number is put in the clipboard.
+The result of a successful lookup is shown in Figure 9b.
+<p>
+If the valid bit of this entry is clear, it indicates a page fault.
+Push the yellow <b>Page Fault</b> button as in Figure 2.  Otherwise, the frame
+number must be pasted into the physical address.  Assuming the Physical Address
+is still in <b>Paste</b> mode, just click the left field in the
+Physical Address.  Now click the yellow <b>Found Physical Address</b> button.
+After pushing one of these yellow buttons, the <b>Status</b> will indicate
+success or failure.  If you were successful, the test number will appear in the
+list of successfully completed tests in the menu window shown in Figure 1.
+
+<p><center>
+<table border=0>
+<tr><TD><img src="files/Memorya.gif"></TD>
+<TD>&nbsp&nbsp&nbsp</TD>
+<TD><img src="files/Memoryb.gif"></TD>
+<TR><TD align=center>a)</TD><TD></TD><TD align=center>b)</TD></TR>
+</table>
+<p> Figure 9: The Memory View, before and after a successful lookup.
+</center>
+
+
+<p>
+<hr>
+<a name="LifelinesProgressHelp"></a>
+<h3>Progress Help and Lifelines</h3>
+<b>Progress Help</b><br>
+By default, the Progress List is active but the help features are not.<br>
+The <b>progress</b> configuration keyword controls the amount of help
+available from the progress list.  By default, the progress list is active
+but it cannot generate any help messages.  Three options can be set in the
+configuration file, <b>progress none</b>, <b>progress help</b> and
+<b>progress do</b>.
+<p>
+The <b>progress none</b> option completely turns off the progress list so
+that it cannot be displayed.
+<p>
+
+If <b>progress help</b> is active, clicking on one of the steps in Figure 7
+gives information about how to accomplish this step.
+Figure 10 shows the result of clicking on step 3.
+
+<p><center>
+<img src="files/ProgressListHelpPasteOffset.gif">
+<p> Figure 10: A help message for pasting the offset in the physical address.
+</center>
+
+If <b>progress do</b> is active, clicking on the current step
+(the first one without a cyan dot) displays additional information
+and allows the user to automatically perform this step.
+Clicking on a line in one of these messages that ends with <b>do it</b>
+performs the indicated operation.
+<p>
+Figure 11 shows three possibilities for the result of clicking on step 4
+in Figure 7.  Figure 11a shows the
+case in which the TLB has not already been displayed.
+Clicking on line 2
+in this figure displays the TLB and changes the message to the one in
+Figure 11b.  The the TLB is displayed, but incorrectly segmented, the message
+would appear as in Figure 11c.  In any of these, clicking on the last line
+will correctly segment the TLB.
+
+<p><center>
+<table border=0>
+<tr><TD><img src="files/ProgressListHelpSegmentTLBa.gif"></TD>
+<TD><img src="files/ProgressListHelpSegmentTLBb.gif"></TD>
+<TD><img src="files/ProgressListHelpSegmentTLBc.gif"></TD></TR>
+<TR><TD align=center>a)</TD><TD align=center>b)</TD><TD align=center>c)</TD>
+</TR>
+</table>
+<p> Figure 11: A help message for pasting the offset in the physical address.
+</center>
+ 
+<b>LifeLines</b><br>
+At the top of the window in Figure 2 is a <b>Lifelines</b> button.
+By default, lifelines are disabled and this button will produce no action.
+The <b>lifelines</b> configuration keyword allows you to active a certain number
+of lifelines per test and a total number of lifelines for a session.
+<p>
+A lifeline is used when the user is stuck and does not know how to proceed.
+The <b>Lifeline</b> button provides help for the next step in the address
+translation.  Figure 12 shows the lifeline displayed corresponding to
+the situation in Figure 7.  The lifeline display always has a
+<b>Perform Step</b> that can be used to execute the next step in the address
+translation.
+ 
+<p><center>
+<img src="files/Lifeline.gif">
+<p> Figure 12: A lifeline.
+</center>
+ 
+A lifeline typically contains more detailed information than the progress
+help messages such as the one in Figure 9.
+<p>
+Lifelines are meant to be used in testing mode while progress help is meant
+for practice mode.  Lifelines can be limited while progress help is either
+available or not.  The use of lifelines is always logged so the instructor
+can see exactly where and how many lifelines are used.
+<p>
+
+ 
+
+<p><hr>
+<a name="Configuration"></a>
+<h3>Configuration</h3>
+The default configuration file is <tt>addressconfig</tt> but the simulator
+will use another file if it is specified on the command line when the simulator
+is started.  A configuration file contains lines of keyword-value pairs.
+Lines beginning with a <tt>%</tt> are treated as comments and are ignored.
+The following table lists the valid keywords and the corresponding values.
+<p>
+<table border="1">
+<tbody><tr><td>Keyword</td><td>Values</td><td>Meaning</td></tr><tr>
+</tr><td colspan=3 align = center>General Parameters</td><tr>
+</tr><tr><td>user</td><td>anything</td><td>The name of the current user.
+             This appears in the log file.</td></tr><tr>
+</tr><tr><td>quiet</td><td>none</td>
+           <td>Turns off all sounds generated by the simulator.</td></tr><tr>
+</tr><td colspan=3 align=center><a href=#LifelinesProgressHelp>Help Parameters</a></td><tr>
+</tr><tr><td>lifelines</td><td>2 integers</td><td>If given, these numbers
+       are the number of lifelines per test and the total number of lifelines
+       allowed.  Zero values indicate no lifelines (the default).
+       The value -1 can be used
+       to indicate no limit to the number of lifelines.</td></tr><tr>
+</tr><tr><td>progress</td><td>a string</td><td>The valid strings are
+       <b>none</b>, <b>help</b> or <b>do</b>.  By default, the Progress window
+       is available but the help menus for each progress step are not
+       available. The value <b>none</b> indicates
+       that the Progress window is not available.  The value <b>help</b>
+       indicates that help is available for each progress step and the
+       value <b>do</b> also allows <b>do it</b> lines for the current step.
+       </td></tr><tr>
+</tr><td colspan=3 align=center><a href=#Logging>Logging Parameters</a></td><tr>
+</tr><tr><td>log</td><td>a string</td><td>
+        The valid strings are <b>all</b>, <b>completion</b>,
+        and <b>summary</b>.
+        See the section on <a href=#Logging>Logging</a>.
+        </td></tr><tr>
+</tr><tr><td>logfile</td><td>a filename</td><td>
+        The name of the log file.  The extension .html will be appended to
+        this.  The default log file is logfile.html.</td></tr><tr>
+</tr><tr><td>logdir</td><td>a directory path</td><td>If given, this is the
+      directory for storing the log file.  If not given, the log file is
+      stored in the current directory.</td></tr><tr>
+</tr><tr><td>uniquefilename</td><td>an integer</td>
+        <td>If given, use a unique file name each time a log file is opened.
+        Do this by appending an integer with the given number of digits
+        to the filename.
+        </td></tr><tr>
+</tr><tr><td>port</td><td>an integer</td><td>
+        If this value is greater than zero, remote logging will be used
+        with this port.
+        The default is 0.</td></tr><tr>
+</tr><td colspan=3 align=center><a href=#ConfiguringTests>Test Configuration</a></td><tr>
+</tr><tr><td>nosingleleveltests</td><td>none</td><td>
+        Inhibits the default single level tests.
+        </td></tr><tr>
+</tr><tr><td>notwoleveltests</td><td>none</td><td>
+        Inhibits the default two level tests.
+        </td></tr><tr>
+</tr><tr><td>singlelevelvalues</td><td>4 integers</td><td>
+        The default values for single level page table tests.
+        </td></tr><tr>
+</tr><tr><td>twolevelvalues</td><td>5 integers</td><td>
+        The default values for two level page table tests.
+        </td></tr><tr>
+</tr><tr><td>testfilename</td><td>a string</td><td>
+        A file containing tests.
+        </td></tr><tr>
+</tr><td colspan=3 align=center><a href=#ConfiguringEmail>Email Configuration</a></td><tr>
+</tr><tr><td>email</td><td>a string</td><td>
+        The valid strings are <b>none</b>, <b>attempt</b>, <b>success</b>
+        and <b>done</b>.
+        </td></tr><tr>
+</tr><tr><td>emailfrom</td><td>a string</td><td>
+        The sender of the email.
+        </td></tr><tr>
+</tr><tr><td>emailto</td><td>a string</td><td>
+        The receiver of the email.
+        </td></tr><tr>
+</tr><tr><td>emailhost</td><td>a string</td><td>
+        The email server.
+        </td></tr><tr>
+</tr></tbody></table>
+
+<p>
+<hr>
+<a name="Logging"></a>
+<h3>Logging</h3>
+The <b>Open Log</b> button in the lower right corner of Figure 1 will open a log
+file.  When pushed, the button changes to <b>Close Log</b> and the name of the
+log file is displayed between this button and the <b>Quit</b> button.
+<p>
+Logging is controlled by the configuration keywords: log, logfile, logdir,
+uniquefilename and port.
+<p>
+The <b>log</b> configuration keyword determines how much information is logged.
+The default is <b>all</b> which causes all actions by the user to be logged.
+Information is only stored in the log file when a test has been successfully
+completed.  Figure 13 shows the result of logging one test using this default.
+
+<p>
+ 
+<center>
+<table border="1"><tbody><tr><td colspan="3" align="center">
+<b>Test 3: 2: Single Level Page Table not in TLB</b></td></tr>
+<tr><td align-right="">1</td><td align="right">7.437</td><td>Logical Address Frame Selected: 110100010101</td></tr>
+<tr><td align-right="">2</td><td align="right">7.437</td><td>Physical Address Paste Offset: 110100010101</td></tr>
+<tr><td align-right="">3</td><td align="right">7.687</td><td>TLB segmented into 18 and 11</td></tr>
+<tr><td align-right="">4</td><td align="right">7.890</td><td>Logical Address Page Selected: 000111010110111100</td></tr>
+<tr><td align-right="">5</td><td align="right">9.249</td><td>Button Pushed: Progress</td></tr>
+<tr><td align-right="">6</td><td align="right">12.577</td><td>Progress Tracker Event: Progress Tracker Help for 6. Search TLB for Page</td></tr>
+<tr><td align-right="">7</td><td align="right">15.280</td><td>TLB lookup
+failed</td></tr>
+<tr><td align-right="">8</td><td align="right">22.093</td><td>Lifeline Requested: Paste Frame Number in Physical Address if Valid</td></tr>
+<tr><td align-right="">9</td><td align="right">25.358</td><td>Automatic Step Performed: Paste Frame Number in Physical Address if Valid</td></tr>
+<tr><td align-right="">10</td><td align="right">25.358</td><td>Physical Address Paste Frame: 00001111011</td></tr>
+<tr><td align-right="">11</td><td align="right">30.592</td><td>Attempt Completion: Correct Physical Address Found</td></tr>
+<tr><td colspan="3">Lifeline count: 1 &nbsp&nbsp&nbsp&nbsp Automatic step count: 1</td></tr></tbody></table>
+<p> Figure 13: log file produced with the default of logging all actions.
+</center>
+ 
+
+
+<p>
+The other two option only log the results of the tests and the log information
+is only updated when the log is closed or the <b>Quit</b> button is pushed.
+If <b>log completion</b> is specified, only those tests that have been
+successfully completed will be listed in the log file.  Figure 14 shows an
+example of this.  If <b>log summary</b> is specified, a count is given of the
+number of correct and incorrect attempts for each test attempted.  This just
+counts the number of times the yellow completion buttons of Figure 2
+have been pushed.  An example is shown in Figure 15.
+
+<p>
+<center>
+<table border=0>
+<tr><td>The following tests were completed:</td></tr>
+<tr><td>&nbsp&nbsp&nbsp&nbsp 2: Single Level Page Table not in TLB</td></tr>
+<tr><td>&nbsp&nbsp&nbsp&nbsp 5: Single Level Page Table with Page Fault, no TLB</td></tr>
+<tr><td>&nbsp&nbsp&nbsp&nbsp 3: Two Level Page Table with Page Fault</td></tr>
+<tr><td>&nbsp&nbsp&nbsp&nbsp 4: Two Level Page Table with Illegal Page</td></tr>
+</table>
+<p>
+Figure 14: A log file produced with the <b>log summary</b> configuration.
+</center>
+
+
+<p>
+<center>
+
+The following is a summary of attempts:<br>
+<table border =1><TR><TD>Test</TD><TD>Successes</TD><TD>Failures</TD></TR>
+<TR><TD>1: Single Level Page Table in TLB</TD><TD align=right>1</TD><TD align=right>0</TD></TR>
+<TR><TD>2: Single Level Page Table not in TLB</TD><TD align=right>1</TD><TD align=right>3</TD></TR>
+<TR><TD>3: Single Level Page Table with Page Fault</TD><TD align=right>1</TD><TD align=right>0</TD></TR>
+<TR><TD>5: Two Level Page Table without TLB</TD><TD align=right>1</TD><TD align=right>0</TD></TR>
+<TR><TD>7: Two Level Page Table with Illegal Page</TD><TD align=right>6</TD><TD align=right>10</TD></TR></table>
+<p>
+Figure 15: A log file produced with the <b>log attempts</b> configuration.
+</center>
+
+<p>
+The log is stored in a file in HTML format so it can be displayed in a browser.
+The name of the file is given as the parameter to the <b>logfile</b> keyword.
+The extension <b>.html</b> is appended to this.  The file is stored in the
+directory given by the <b>logdir</b> keyword.
+<p>
+By default, each time the log file is opened, the old log file is replaced.
+If the <b>uniquefilename</b> keyword is used, each time the log is opened
+a distinct filename is used.  It is made by appending an integer to the
+filename given by the <b>logfile</b> keyword.  The parameter to
+<b>uniquefilename</b> is the minimum number of digits used for this integer.
+The integer used is the smallest one (starting with 1) that has not
+already been used.
+<p>
+If the <b>port</b> keyword is given, the parameter is the port number to used
+for a remote connection to a logging server for storing the log file.
+This is only appropriate when the simulator is started as an applet from a
+browser.
+<p>
+
+<p>
+<hr>
+<a name="TwoLevelPageTables"></a>
+<h3>Two Level Page Tables</h3>
+In the two-level page table implementation used here, the top level page
+table contains a valid bit and the physical frame number of the second level
+page table.  All valid second level page tables must be in physical memory.
+An access to an address which corresponds to top level page table entry with the
+valid bit clear corresponds to an invalid memory reference, not a page fault.
+A page fault can only occur when the second level page table has the
+corresponding valid bit clear.
+<p>
+For the two level tests using a TLB, TLB entries contain a full page number
+consisting of the top level and second level page numbers and a frame number.
+<p>
+Seven two level page table tests are built into the simulator.  Three tests
+do not use the TLB at all and correspond to no page fault, a page fault,
+and an invalid reference.  There are four tests using the TLB, these three
+plus a reference in which the full page number is in the TLB.
+<p>
+Figure 16 shows a typical two level page table test and Figure 17 shows
+the corresponding progress list. 
+The TLB lookup for the two level page table is the same
+as for the single level page table and is exactly the same if the
+item is found in the TLB.  If not, the top level page table must be searched.
+Figure 18a shows the top level page table gotten by clicking the
+<b>Memory View</b> button in Figure 18.
+<p>
+<center>
+<img src=files/TwoLevelTest.gif><p>
+Figure 16: A two level page table test.
+</center>
+<p>
+<center>
+<img src=files/TwoLevelProgress.gif><p> 
+Figure 17: The progress list for a two level page table test.
+</center>
+<p>
+<center>
+<table border=0>
+<tr><td><img src=files/TwoLevelMemoryTop.gif></td>
+<TD>&nbsp&nbsp&nbsp</TD> 
+<td><img src=files/TwoLevelMemoryTopFound.gif></td> 
+<TR><TD align=center>a)</TD><TD></TD><TD align=center>b)</TD></TR>
+</table>
+Figure 18: The top level page table view of a two level page table test
+before a) and after b) a successful lookup.
+</center>
+<p>
+
+To look up an entry in this page table, the top level page number must be found.
+Set the logical address to segment mode to segment the logical address again.
+Since the second level page number is 9 bits wide, the top level page number
+contains (30-12-9) = 9 bits.
+Click on the logical address to segment it into pieces
+with sizes 9, 9 and 12.  Change the logical address to select mode and click
+on the top level page number.  This puts the page number in the clipboard.
+Click on the <b>Entry</b> button in the memory view of Figure 18a to look
+find this entry in the top level page table.  The entry is highlighted as in
+Figure 18b.
+<p>
+If the valid bit were clear, this would be an invalid memory reference.
+Push the <b>Invalid Reference</b> button in Figure 16 to complete the test.
+Since in this case the valid bit is set, the entry contains the frame number
+of the second level page table. This frame number has also been put in the
+clipboard.  Push the <b>Second</b> button (next to the highlighted <b>First</b>
+button in the memory view of Figure 18b.  This displays a second level page
+table shown in Figure 19a.
+<p>
+<center>
+<table border=0>
+<tr><td><img src=files/TwoLevelMemorySecond.gif></td> 
+<TD>&nbsp&nbsp&nbsp</TD> 
+<td><img src=files/TwoLevelMemorySecondFound.gif></td> 
+<TR><TD align=center>a)</TD><TD></TD><TD align=center>b)</TD></TR>
+</table>
+Figure 19: The second level page table view of a two level page table test
+before a) and after b) a successful lookup.
+</center>
+<p>
+Click the <b>Frame</b> button to set the starting from number of this page
+table from the value in the clipboard.  Now it is time to look up the second
+level page number in this table.  Click on the second level page number field
+in the logical address of Figure 16 to put it in the clipboard.  Then click
+the <b>Entry</b> button in the memory view of Figure 19a.  The result is shown
+in Figure 19b.  If the valid bit of the highlighted entry were 0, this would
+indicate a page fault.  Click on the yellow <b>Page Fault</b> button in Figure
+16 to complete the test.
+<p>
+Since the valid bit in this case is set, the frame number of the physical
+address is in this entry.  It was also put in the clipboard.  Click the
+frame number field in the physical address in Figure 16 to paste the
+frame number in the physical address.  The physical address is now correctly
+set, so push the yellow <b>Found Physical Address</b> button to complete the
+test.  The status should indicate that the correct physical address was found.
+
+<p>
+<hr>
+<a name="ConfiguringTests"></a>
+<h3>Configuring Tests</h3>
+The default configuration of the simulator has 5 single level page table tests
+and 7 two level page tables tests.  These tests cover all possibilities of
+finding address in the TLB, the page table or page faults.  The simulator
+has built-in default values for the parameters of these tests.
+You can change the parameters for all of the default single level page table
+tests or all of the default two level page table tests using the
+<b>singlelevelvalues</b> and <b>twolevelvalues</b> configuration keywords.
+<p>
+The <b>singlelevelvalues</b> keyword takes four integer parameters representing,
+in order, the
+number of TLB entries, the number of bits in the logical address, the number of
+bits in the physical address and the number of bits in the page offset.
+<br>
+The <b>twolevelvalues</b> keyword takes five integer parameters
+representing, in order, the number of TLB entries, the number of bits in the
+logical address, the number of bits in the second level page number, the number
+of bits in the physical address and the number of bits in the page offset.
+<p>
+The following two lines in the configuration file will set the default tests
+to use a TLB with 8 entries, a logical addresses of 32 bits,
+physical addresses of 26 bits and a page size of 1024 (2<sup>10</sup>).
+The two level page table tests will use 11 bits for the second level page
+number.<br>
+<pre>
+singlelevelvalues 8 32 26 10
+twolevelvalues 8 32 11 26 10
+</pre>
+You can also inhibit either all of the default one level tests or two level
+tests with the configuration keywords <b>nosingleleveltest</b> or
+<b>notwoleveltests</b>.
+<p>
+It is also possible to completely replace the default tests with tests of your
+own design.  Create a test configuration file and use its name as the parameter
+with the <b>testfilename</b> configuration keyword.
+<p>
+The format of this file is fairly rigid, and a single error will cause
+the entire file to be rejected by the simulator.
+If it is rejected, the simulator will tell you which entry was rejected.
+<p>
+Each test is described by two lines followed by 4 boolean values, 9 integer
+values and 1 boolean value.  These last 14 values are in free format, that is,
+they can be separated by any white space or commas.  The boolean values are
+given as either the string <b>true</b> or the string <b>false</b>.  These are
+not case sensitive.
+<p>
+The file consists of an arbitrary number of these tests, one after the other.
+<p>
+The first two lines of a test specification give names to be used for the
+test.  The first line is the name that is given to the user, referred to as the
+display name.  This is the name that appears in the buttons on the right side
+of Figure 1 or as the heading in Figure 2.  Typically it contains a test number
+but does not divulge what is being tested.  An example might be
+<b>Single Level Page Table Test 3</b>.
+The second line is the name that will appear in the log file or email to the
+instructor.  This should be more description of what is being tested.  An
+example might be <b>Single Level Page Table In TLB</b>.
+<p>
+The rest of the values are described in the following table.
+Note that the mnemonics do not appear in the file and are just given for
+easy reference.
+<p>
+<table border=1>
+<TR><TD>mnemonic</TD><TD>type</TD><TD>meaning</TD></TR>
+<tr><td>useTlb</td><td>boolean</td><td>if true, a TLB is used.</td></tr>
+<tr><td>inTlb</td><td>boolean</td><td>if true, the page number is in the TLB.</td></tr>
+<tr><td>pageFault</td><td>boolean</td><td>if true, a page fault occurs</td></tr>
+<tr><td>legalPage</td><td>boolean</td><td>if true, the first level lookup of a 2-level page
+table is successful.</td></tr>
+<tr><td>tlbEntries</td><td>integer</td><td>the number of entries in the TLB</td></tr>
+<tr><td>logicalAddressBits</td><td>integer</td><td>the number of bits in a logical address</td></tr>
+<tr><td>logicalAddress2Bits</td><td>integer</td><td>for two level page tables, this is the number of bit in the second level page number.</td></tr>
+<tr><td>physicalAddressBits</td><td>integer</td><td>the number of bits in a physical address</td></tr>
+<tr><td>pageSizeBits</td><td>integer</td><td>the number of bits needed to represent an offset.  The page size is 2 to this power.</td></tr>
+<tr><td>logicalAddress</td><td>integer</td><td>the logical address.  If the value given is negative, a random value will be chosen.</td></tr>
+<tr><td>frameNumber</td><td>integer</td><td>the frame number of the translated address.  If this value is negative, a random value will be chosen.</td></tr>
+<tr><td>pageTableStartFrame</td><td>integer</td><td>The starting frame number of the page table.  If this value is negative, a random value will be chosen.</td></tr>
+<tr><td>pageTableEntryBytes</td><td>integer</td><td>the number of bytes in a page table entry.  If this value is negative, page table entries will be the smallest power of two that will fit a frame number and valid bit.</td></tr>
+<tr><td>byteOrderLittle</td><td>boolean</td><td>if true, little endian is used
+</td></tr>
+</table>
+<p>
+The values of <b>legalPage</b> and <b>logicalAddress2Bits</b> are
+ignored for single level page tables.  Other values are modified if not
+consistent.
+For example, <b>useTLB</b> and <b>inTLB</b> are set false if the number
+of TLB entries is 0.
+<p>
+Below is a simple test configuration file with two test cases:
+<pre>
+First Address Translation Test
+Single level page table with page fault
+true false true false    
+12 25 0 18 8
+12345 35 1024 4
+true
+First 2 Level Test
+Two level page table with full lookup necessary
+true, false, false, true,
+16, 30, 9, 23, 12, 123456789, 123,
+54321, 4, true
+</pre>
+
+
+
+
+<p>
+<hr>
+<a name="ConfiguringEmail"></a>
+<h3>Configuring Email</h3>
+The simulator allows for email to be automatically sent to the instructor
+when students use the simulator.  The <b>email</b> configuration keyword
+controls when email is sent.  If the parameter is <b>none</b> no email is sent.
+The <b>attempt</b> parameter indicates that email is sent any time at attempt
+is made at completing a test.
+This occurs when one of the yellow buttons of Figure 1 is pushed.
+The <b>success</b> parameter indicates that email is sent when the student
+successfully completes a test.  That is, the correct yellow button of Figure 1
+is pushed.  Lastly, the <b>done</b> configuration keyword indicates that
+email is sent when the student is done using the simulator which occurs when
+the <b>Quit</b> button is pushed.
+<p>
+In order to set up email, three additional parameters must be set in the
+configuration file.  The parameter to <b>emailfrom</b> is the return
+email address of the sender.  The parameter to <b>emailto</b> is the email
+address to which the mail is sent.  Lastly, the parameter to
+<b>emailhost</b> is the name of the mail server that sends out mail.
+<p>
+The information in the email messages is sent in HTML format in the body of
+the message (not as an attachment).  This should be able to be read with
+most mail reading programs.  The content of the email messages is the same
+information that would appear in a log file.  The amount of information is
+controlled by the <b>log</b> configuration keyword.
+Examples of the different amount of information that can be sent in an email
+message are shown in Figures 13, 14 and 15.
+<p>
+Using email with the simulator requires an additional Java packages
+which may not be part of the standard Java runtime distribution.
+Two jar files, 
+<tt>mail.jar</tt> and <tt>activation.jar</tt> are included with
+this simulator for your use.  If these do not work with your system,
+you will need to obtain another version of these files.
+
+<p>
+<hr>
+<p>
+
+</body></html>
